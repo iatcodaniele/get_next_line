@@ -98,10 +98,10 @@ int main()
 {
 	int fd = open("/nfs/homes/diatco/Desktop/trash/get_next_line_v3/file.txt", O_RDWR);
 	int i = 0;
+	char *line = get_next_line(fd);
 
 	while(i < 3)
 	{
-		char *line = get_next_line(fd);
 		printf("line number %i: %s \n", i, line);
 		free(line);
 		i++;
