@@ -1,32 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: diatco <diatco@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/11 14:35:39 by diatco            #+#    #+#             */
-/*   Updated: 2024/02/13 20:21:12 by diatco           ###   ########.fr       */
+/*   Created: 2024/02/13 18:20:10 by diatco            #+#    #+#             */
+/*   Updated: 2024/02/13 19:13:36 by diatco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*get_next_line(int fd)
 {
 	char		*line;
-	static char	*stash;
+	static char	*stash[1024];
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 	{
-		free(stash);
+		free(stash[fd]);
 		return (NULL);
 	}
-	stash = ft_read_buffer(fd, stash);
-	if (!stash)
+	stash[fd] = ft_read_buffer(fd, stash[fd]);
+	if (!stash[fd])
 		return (NULL);
-	line = ft_extract_line(stash);
-	stash = ft_remove_output_line(stash);
+	line = ft_extract_line(stash[fd]);
+	stash[fd] = ft_remove_output_line(stash[fd]);
 	return (line);
 }
 
@@ -106,28 +106,28 @@ char	*ft_remove_output_line(char *stash)
 	return (leftover);
 }
 
-// int main()
-// {
-// 	char *line;
-// 	int fd = open("file1.txt", O_RDWR);
-// 	line = get_next_line(fd);
-// 	int i = 1;
-// 	while(line != NULL)
-// 	{
-// 		printf("line %i: %s\n",i, line);
-// 		free(line);
-// 		i++;
-// 		line = get_next_line(fd);
-// 	}
-// }
-
 int main()
 {
+	int fd[2];
 	char *line;
-	while((line = get_next_line(0)) != NULL) //standard input(from terminal)
+
+	fd[0] = open("file1.txt", O_RDONLY);
+	fd[1] = open("file2.txt", O_RDONLY);
+	line =  get_next_line(fd[0]);
+	while(line != NULL)
 	{
-		printf("%s\n", line);
+		printf("file 1: %s", line);
 		free(line);
+		line = get_next_line(fd[0]);
 	}
+	line = get_next_line(fd[1]);
+	while(line != NULL)
+	{
+		printf("file 2: %s", line);
+		free(line);
+		line = get_next_line(fd[1]);
+	}
+	close(fd[0]);
+	close(fd[1]);
 	return (0);
 }
