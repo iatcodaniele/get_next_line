@@ -105,29 +105,32 @@ char	*ft_remove_output_line(char *stash)
 	free(stash);
 	return (leftover);
 }
-
-int main()
-{
-	int fd[2];
-	char *line;
-
-	fd[0] = open("file1.txt", O_RDONLY);
-	fd[1] = open("file2.txt", O_RDONLY);
-	line =  get_next_line(fd[0]);
-	while(line != NULL)
-	{
-		printf("file 1: %s", line);
-		free(line);
-		line = get_next_line(fd[0]);
-	}
-	line = get_next_line(fd[1]);
-	while(line != NULL)
-	{
-		printf("file 2: %s", line);
-		free(line);
-		line = get_next_line(fd[1]);
-	}
-	close(fd[0]);
-	close(fd[1]);
-	return (0);
-}
+// #include <time.h>
+// int main()
+// {
+// 	int fd1 = open("image.txt", O_RDONLY);
+// 	int fd2 = open("long_no_nl.txt", O_RDONLY);
+// 	int fd3 = open("onlynewline.txt", O_RDONLY);
+// 	clock_t tic = clock();
+// 	int i = 0;
+// 	char *line;
+// 	while(i < 32)
+// 	{
+// 		line = get_next_line(fd1);
+// 		printf("File %i, line %i: %s\n", 1, i+1, line);
+// 		free(line);
+// 		line = get_next_line(fd2);
+// 		printf("File %i, line %i: %s\n", 2, i+1, line);
+// 		free(line);
+// 		line = get_next_line(fd3);
+// 		printf("File %i, line %i: %s\n", 3, i+1, line);
+// 		free(line);
+// 		i++;
+// 	}
+// 	clock_t toc = clock();
+// 	printf("duration: %f", (double)(toc - tic) / CLOCKS_PER_SEC);
+// 	close(fd1);
+// 	close(fd2);
+// 	close(fd3);
+// 	return (0);
+// }
