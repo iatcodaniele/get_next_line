@@ -105,29 +105,33 @@ char	*ft_remove_output_line(char *stash)
 	free(stash);
 	return (leftover);
 }
-
+// #include <time.h>
 // int main()
 // {
 // 	char *line;
-// 	int fd = open("file1.txt", O_RDWR);
-// 	line = get_next_line(fd);
+// 	int fd = open("bigben.txt", O_RDONLY);
 // 	int i = 1;
-// 	while(line != NULL)
+// 	clock_t tic = clock();
+// 	while((line = get_next_line(fd)) != NULL)
 // 	{
 // 		printf("line %i: %s\n",i, line);
 // 		free(line);
 // 		i++;
-// 		line = get_next_line(fd);
 // 	}
+// 	if(fd < 0)
+// 		printf("file doesn't exist");
+// 	clock_t toc = clock();
+// 	printf("duration: %f\n", (double)(toc -tic) / CLOCKS_PER_SEC);
+// 	close(fd);
+// 	return (0);
 // }
-
-int main()
-{
-	char *line;
-	while((line = get_next_line(0)) != NULL) //standard input(from terminal)
-	{
-		printf("%s\n", line);
-		free(line);
-	}
-	return (0);
-}
+// int main()
+// {
+// 	char *line;
+// 	while((line = get_next_line(0)) != NULL) //standard input(from terminal)
+// 	{
+// 		printf("%s\n", line);
+// 		free(line);
+// 	}
+// 	return (0);
+// }
